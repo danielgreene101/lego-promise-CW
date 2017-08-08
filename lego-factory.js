@@ -11,6 +11,10 @@ var Legos = ( (originalLegos) => {
         return legoItems;
     }
     
+    originalLegos.getLegos = () => {
+        return legoItems;
+    }
+    
     
     originalLegos.loadLegos = () => {
         return new Promise((resolve, reject) => {

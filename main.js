@@ -42,16 +42,106 @@ let buildLego = (lego) => {
       return block;
 };
 
+//version 1
+//let colorPromise = Legos.loadLegos()
+////console.log("colorPromise", colorPromise);
+//.then(
+//(resolve) => {
+//    //do some stuff
+//    let newItem = {LegoName: "Daniel's Brick", ColorHex: "a3a3d1", YearFrom: "2009", YearTo: "Present"}
+//    resolve.push(newItem);
+//    showItems(resolve);
+//},
+//    (reject) => {
+//        console.error("OOPS", reject);
+//        //do something else here
+//    });
+
+
+//version 2 with additional .then
 
 let colorPromise = Legos.loadLegos()
 .then(
-(resolve) => {
-    //do some stuff
-    let newItem = {LegoName: "Daniel's Brick", ColorHex: "a3a3d1", YearFrom: "2009", YearTo: "Present"}
-    resolve.push(newItem);
-    showItems(resolve);
-},
+    (resolve) => {
+        let newItem = {LegoName: "Daniel's Brick", ColorHex: "a3a3d1", YearFrom: "2009", YearTo: "Present"}
+        resolve.push(newItem);
+        return resolve;
+    },
     (reject) => {
-        console.error("OOPS", reject);
-        //do something else here
-    })
+        console.log("OOPS", reject);
+        //backupPlan();
+    }).then(
+    (resolve) => {
+        console.log("One for the road", resolve);
+        showItems(resolve);
+    },
+    () => {
+    //default to catch anything else
+    console.log("There was an error somewhere");
+});
+
+//promise All 
+
+var p1 = Promise.resolve(3);
+var p2 = 1337;
+var p3 = new Promise((resolve, reject) =>{
+    setTimeout(resolve, 2000, 'foo');
+});
+
+Promise.all([p3, p1, p2])
+.then(
+    (resolve) => {
+        console.log("resolve values", resolve);
+    }),
+    (reason) =>{
+    console.log("reason", reason);
+}
+
+
+//Promise Race
+
+p11 = new Promise((resolve, reject) => {
+    setTimeout(resolve, 1000, "one");
+});
+
+p22 = new Promise((resolve, reject) => {
+    setTimeout(resolve, 2000, "two");
+});
+
+p33 = new Promise((resolve, reject) => {
+    setTimeout(resolve, 3000, "three");
+});
+
+
+p44 = new Promise((resolve, reject) => {
+    setTimeout(resolve, 400, "four");
+});
+
+p55 = new Promise((resolve, reject) => {
+    setTimeout(resolve, 5000, "five");
+//    reject("The Empire Did Nothing Wrong")
+});
+
+Promise.race([p11, p22, p33, p44, p55])
+.then( (winner) =>{
+    console.log("winner", winner);
+    console.log("Show me the lego array", Legos.getLegos());
+},
+(reject) => {
+    console.log("reject", reject);
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
